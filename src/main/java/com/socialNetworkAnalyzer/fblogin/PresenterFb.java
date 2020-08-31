@@ -1,9 +1,9 @@
 package com.socialNetworkAnalyzer.fblogin;
 
-import com.socialNetworkAnalyzer.Model;
+import com.socialNetworkAnalyzer.ModelInsta;
 
 public class PresenterFb {
-    private Model model;
+    private ModelInsta modelInsta;
     private ViewControllerFb viewControllerFb;
 
     public PresenterFb(){}

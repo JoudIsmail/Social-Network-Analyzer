@@ -1,6 +1,6 @@
 package com.socialNetworkAnalyzer.login;
 
-import com.socialNetworkAnalyzer.Model;
+import com.socialNetworkAnalyzer.ModelInsta;
 import com.socialNetworkAnalyzer.main.Presenter;
 import com.socialNetworkAnalyzer.main.ViewController;
 import javafx.event.ActionEvent;
@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -70,10 +69,11 @@ public class ViewControllerLogin{
                 }
 
 
-                Model model = new Model();
-                Model.getInstagram4jInstance();
+                ModelInsta modelInsta = new ModelInsta();
+                ModelInsta.getInstagram4jInstance();
                 presenter.setViewController(viewController);
-                presenter.setModel(model);
+                presenter.setModel(modelInsta);
+                viewController.updateContent();
 
                 Scene scene = new Scene(pane);
 

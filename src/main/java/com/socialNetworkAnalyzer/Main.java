@@ -1,7 +1,7 @@
 package com.socialNetworkAnalyzer;
 
-import com.socialNetworkAnalyzer.login.PresenterLogin;
-import com.socialNetworkAnalyzer.login.ViewControllerLogin;
+import com.socialNetworkAnalyzer.mainLogin.PresenterMainLogin;
+import com.socialNetworkAnalyzer.mainLogin.ViewControllerMainLogin;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,7 +10,30 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public void start(Stage stage) throws Exception {
-        PresenterLogin presenterLogin = new PresenterLogin();
+        PresenterMainLogin presenterMainLogin = new PresenterMainLogin();
+        Pane pane;
+
+        ViewControllerMainLogin viewControllerMainLogin;
+
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com.socialNetworkAnalyzer/MainLogin.fxml"));
+            pane = (Pane)loader.load();
+            viewControllerMainLogin=(ViewControllerMainLogin)loader.getController();
+            viewControllerMainLogin.setPresenterMainLogin(presenterMainLogin);
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+        ModelInsta modelInsta = new ModelInsta();
+        presenterMainLogin.setViewControllerMainLogin(viewControllerMainLogin);
+        presenterMainLogin.setModel(modelInsta);
+
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.setTitle("JAW Analyzer");
+        stage.show();
+
+        /*PresenterLogin presenterLogin = new PresenterLogin();
         Pane pane;
 
         ViewControllerLogin viewControllerLogin;
@@ -32,6 +55,7 @@ public class Main extends Application {
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.setTitle("Login");
-        stage.show();
+        stage.show();*/
+
     }
 }

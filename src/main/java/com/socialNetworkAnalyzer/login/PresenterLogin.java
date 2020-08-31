@@ -1,6 +1,6 @@
 package com.socialNetworkAnalyzer.login;
 
-import com.socialNetworkAnalyzer.Model;
+import com.socialNetworkAnalyzer.ModelInsta;
 import com.socialNetworkAnalyzer.SingletonSession;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
@@ -8,7 +8,7 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
 public class PresenterLogin {
 
     private ViewControllerLogin viewControllerLogin;
-    private Model model;
+    private ModelInsta modelInsta;
 
 
     public PresenterLogin(){}
@@ -17,14 +17,14 @@ public class PresenterLogin {
         this.viewControllerLogin = viewControllerLogin;
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    public void setModel(ModelInsta modelInsta) {
+        this.modelInsta = modelInsta;
     }
 
     public Instagram4j login(String username, String password){
-        Instagram4j instagram4j = null;
-        model = new Model();
-        instagram4j = model.login(username, password);
+        Instagram4j instagram4j;
+        modelInsta = new ModelInsta();
+        instagram4j = modelInsta.login(username, password);
         return instagram4j;
     }
 
@@ -35,16 +35,16 @@ public class PresenterLogin {
 
     public InstagramUser getProfile(Instagram4j instagram4j){
         InstagramUser instagramUser;
-        model = new Model();
-        instagramUser = model.getConnectedProfile(instagram4j);
+        modelInsta = new ModelInsta();
+        instagramUser = modelInsta.getConnectedProfile(instagram4j);
         return instagramUser;
     }
 
     public static void updateProfile(InstagramUser user){
-        Model.updateProfile(user);
+        ModelInsta.updateProfile(user);
     }
 
     public static void setInstagram4jInstance(Instagram4j instagram4j) {
-        Model.setInstagram4jInstance(instagram4j);
+        ModelInsta.setInstagram4jInstance(instagram4j);
     }
 }

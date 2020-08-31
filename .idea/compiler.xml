@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="social network analyzer" />
+        <module name="socialnetworkanalyzer" />
       </profile>
     </annotationProcessing>
   </component>

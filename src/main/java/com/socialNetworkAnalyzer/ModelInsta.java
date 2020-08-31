@@ -1,7 +1,5 @@
 package com.socialNetworkAnalyzer;
 
-
-
 import javafx.scene.image.ImageView;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowersRequest;
@@ -12,28 +10,28 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResu
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class Model {
+
+public class ModelInsta {
 
     private static Instagram4j instagram = null;
 
-    private List <InstagramUserSummary>users = new ArrayList<>();
+    private List<InstagramUserSummary> users = new ArrayList<>();
 
-    private int nRows = 3;
-
-    private  int nCols;
-
-    private String username;
     private int gainedFollowers;
     private int lostFollowers;
     private String followers;
-    private String following;
+    private int fdfubCount= 0;
+    private int fudfbCount= 0;
+    private List<InstagramUserSummary> userfollowersList;
+    private List<InstagramUserSummary> userfollowingList;
+    private List<InstagramUserSummary> fdfub;
+    private List<InstagramUserSummary> fudfb;
 
     private static String currentUsername;
     private static InstagramUser currentUser;
@@ -46,7 +44,7 @@ public class Model {
         this.instagram = instagram;
     }
 
-    public Model(){}
+    public ModelInsta(){}
 
 
     public int getGainedFollowers() {
@@ -73,11 +71,10 @@ public class Model {
         return instagram;
     }
 
-    //I won't implement this method in this Version, perhaps in future Versions
 
     public List<InstagramUserSummary> getFollowersList(Instagram4j instagram, InstagramUser user) {
         String nextMaxId = null;
-        List<InstagramUserSummary> users = new ArrayList<InstagramUserSummary>();
+        List<InstagramUserSummary> users = new ArrayList<>();
 
         while (true) {
             InstagramGetUserFollowersResult followersResult = null;
@@ -96,8 +93,6 @@ public class Model {
 
         return users;
     }
-
-    //comes in future Version
 
     public List<InstagramUserSummary> getFollowingList(Instagram4j instagram, InstagramUser user) {
         String nextMaxId = null;
@@ -229,5 +224,54 @@ public class Model {
         }
     }
 
-    //TODO
+    // following don't follow you back
+    public List<InstagramUserSummary> followingdfub(Instagram4j instagram4j, InstagramUser user){
+        userfollowersList = getFollowersList(instagram4j, user);
+        userfollowingList = getFollowingList(instagram4j, user);
+        List<InstagramUserSummary>toreturn = new ArrayList<>(userfollowersList);
+        toreturn.removeAll(userfollowingList);
+        Set<String> usernames = userfollowersList.stream()
+                .map(InstagramUserSummary::getUsername)
+                .collect(Collectors.toSet());
+        fudfb = userfollowingList.stream()
+                .filter(user1 -> !usernames.contains(user1.getUsername()))
+                .collect(Collectors.toList());
+        fdfubCount = fudfb.size();
+        return fudfb;
+    }
+    //Followers you don't follow back
+    public List<InstagramUserSummary> followerudfb(Instagram4j instagram4j, InstagramUser user){
+        userfollowersList = getFollowersList(instagram4j, user);
+        userfollowingList = getFollowingList(instagram4j, user);
+        List<InstagramUserSummary>toreturn = new ArrayList<>(userfollowingList);
+        toreturn.removeAll(userfollowersList);
+        Set<String> usernames1 = userfollowingList.stream()
+                .map(InstagramUserSummary::getUsername)
+                .collect(Collectors.toSet());
+        /*List<InstagramUserSummary>listtest2 */
+        fdfub = userfollowersList.stream()
+                .filter(user1 -> !usernames1.contains(user1.getUsername()))
+                .collect(Collectors.toList());
+        fudfbCount = fdfub.size();
+        return fdfub;
+    }
+
+    public int getFdfubCount() {
+        return fdfubCount;
+    }
+
+
+    public int getFudfbCount() {
+        return fudfbCount;
+    }
+
+    public void setFdfubCount(Instagram4j instagram4j, InstagramUser instagramUser){
+        List<InstagramUserSummary> list1 = followingdfub(instagram4j, instagramUser);
+        fdfubCount = list1.size();
+    }
+
+    public void setFudfbCount(Instagram4j instagram4j, InstagramUser instagramUser){
+        List<InstagramUserSummary>list2 = followerudfb(instagram4j, instagramUser);
+        fudfbCount = list2.size();
+    }
 }
