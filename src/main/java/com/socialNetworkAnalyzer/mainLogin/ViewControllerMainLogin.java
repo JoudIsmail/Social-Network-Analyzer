@@ -3,6 +3,9 @@ package com.socialNetworkAnalyzer.mainLogin;
 import com.socialNetworkAnalyzer.ModelInsta;
 import com.socialNetworkAnalyzer.login.PresenterLogin;
 import com.socialNetworkAnalyzer.login.ViewControllerLogin;
+import com.socialNetworkAnalyzer.twitter.ModelTwitter;
+import com.socialNetworkAnalyzer.twitter.PresenterLoginTwitter;
+import com.socialNetworkAnalyzer.twitter.ViewControllerLoginTwitter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,9 +37,6 @@ public class ViewControllerMainLogin {
         this.presenterMainLogin = presenterMainLogin;
     }
 
-    @FXML
-    void fbLoginbtnHandler(ActionEvent event) {
-    }
 
 
     @FXML
@@ -68,6 +68,29 @@ public class ViewControllerMainLogin {
 
     @FXML
     void twitterLoginbtnHandler(ActionEvent event) {
+        Pane pane = new Pane();
+        PresenterLoginTwitter presenterLoginTwitter = new PresenterLoginTwitter();
+        ViewControllerLoginTwitter viewControllerLoginTwitter = new ViewControllerLoginTwitter();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com.socialNetworkAnalyzer/TwitterLogin.fxml"));
+            pane = (Pane)loader.load();
+            viewControllerLoginTwitter= (ViewControllerLoginTwitter) loader.getController();
+            viewControllerLoginTwitter.setPresenterLoginTwitter(presenterLoginTwitter);
+        }catch(Exception e){
+            Logger.getLogger(ViewControllerLoginTwitter.class.getName()).log(Level.SEVERE, null, e);
+        }
+        ModelTwitter modelTwitter = new ModelTwitter();
+        presenterLoginTwitter.setViewControllerLoginTwitter(viewControllerLoginTwitter);
+        presenterLoginTwitter.setModelTwitter(modelTwitter);
+
+        Scene scene = new Scene(pane);
+
+
+        Node node =(Node)event.getSource();
+        Stage window = ((Stage)node.getScene().getWindow());
+        window.setScene(scene);
+        window.setTitle("JAW Twitter");
+        window.show();
 
     }
 }
