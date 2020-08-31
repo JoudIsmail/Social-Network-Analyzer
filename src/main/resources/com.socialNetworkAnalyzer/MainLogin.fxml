@@ -21,15 +21,6 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0">
                <children>
-                  <Button mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fx:id="fbLoginbtn" fitHeight="150.0" fitWidth="200.0" onDragDetected="#fbLoginbtnHandler" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@icons8-facebook-48.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <Button fx:id="instaLoginbtn" mnemonicParsing="false" onAction="#instaLoginbtnHandler">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -39,9 +30,9 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false">
+                  <Button fx:id="twitterLoginbtn" mnemonicParsing="false" onAction="#twitterLoginbtnHandler">
                      <graphic>
-                        <ImageView fx:id="twitterLoginbtn" fitHeight="150.0" fitWidth="200.0" onDragDetected="#twitterLoginbtnHandler" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@icons8-twitter-48.png" />
                            </image>

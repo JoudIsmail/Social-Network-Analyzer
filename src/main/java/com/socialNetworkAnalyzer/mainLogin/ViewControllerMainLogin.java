@@ -4,8 +4,8 @@ import com.socialNetworkAnalyzer.ModelInsta;
 import com.socialNetworkAnalyzer.login.PresenterLogin;
 import com.socialNetworkAnalyzer.login.ViewControllerLogin;
 import com.socialNetworkAnalyzer.twitter.ModelTwitter;
-import com.socialNetworkAnalyzer.twitter.PresenterLoginTwitter;
-import com.socialNetworkAnalyzer.twitter.ViewControllerLoginTwitter;
+import com.socialNetworkAnalyzer.twitter.PresenterMainTwitter;
+import com.socialNetworkAnalyzer.twitter.ViewControllerMainTwitter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +31,7 @@ public class ViewControllerMainLogin {
     private Button instaLoginbtn;
 
     @FXML
-    private ImageView twitterLoginbtn;
+    private Button twitterLoginbtn;
 
     private PresenterMainLogin presenterMainLogin;
 
@@ -67,29 +69,27 @@ public class ViewControllerMainLogin {
     }
 
     @FXML
-    void twitterLoginbtnHandler(ActionEvent event) {
-        Pane pane = new Pane();
-        PresenterLoginTwitter presenterLoginTwitter = new PresenterLoginTwitter();
-        ViewControllerLoginTwitter viewControllerLoginTwitter = new ViewControllerLoginTwitter();
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com.socialNetworkAnalyzer/TwitterLogin.fxml"));
-            pane = (Pane)loader.load();
-            viewControllerLoginTwitter= (ViewControllerLoginTwitter) loader.getController();
-            viewControllerLoginTwitter.setPresenterLoginTwitter(presenterLoginTwitter);
-        }catch(Exception e){
-            Logger.getLogger(ViewControllerLoginTwitter.class.getName()).log(Level.SEVERE, null, e);
-        }
-        ModelTwitter modelTwitter = new ModelTwitter();
-        presenterLoginTwitter.setViewControllerLoginTwitter(viewControllerLoginTwitter);
-        presenterLoginTwitter.setModelTwitter(modelTwitter);
+    void twitterLoginbtnHandler(ActionEvent event) throws IOException {
+        PresenterMainTwitter p = new PresenterMainTwitter();
+        ViewControllerMainTwitter v = new ViewControllerMainTwitter(p);
+        v.initView();
 
-        Scene scene = new Scene(pane);
+        ModelTwitter m = new ModelTwitter();
+        p.setViewControllerMainTwitter(v);;
+        p.setModelTwitter(m);
+        p.init();
 
-
-        Node node =(Node)event.getSource();
-        Stage window = ((Stage)node.getScene().getWindow());
+        Stage window = new Stage();
+        Scene scene = new Scene(v.getUI());
         window.setScene(scene);
-        window.setTitle("JAW Twitter");
+        window.setTitle("Login");
+        window.setMaxHeight(1080);
+        window.setMaxWidth(1920);
+        window.setWidth(500);
+        window.setHeight(500);
+        window.setMinHeight(500);
+        window.setMinWidth(500);
+        v.getUI().prefHeightProperty().bind(window.heightProperty());
         window.show();
 
     }
